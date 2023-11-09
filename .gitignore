@@ -7,3 +7,4 @@ app/build
 app/proguard-rules.pro
 app/src/androidTest/
 app/src/test/
+gradle/
