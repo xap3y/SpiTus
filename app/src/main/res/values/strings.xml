@@ -7,8 +7,29 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="headerTitle">Bukkit Servers Status</string>
+    <string name="headerDescription">Monitor and control all your minecraft servers</string>
+
+    <string name="imageDescr">Something</string>
+
+    <string name="dev_page_title">New WS server</string>
+    <string name="dev_page_input_name_hint">Server name</string>
+    <string name="dev_page_input_address_hint">Web Socket address</string>
+    <string name="dev_page_input_port_hint">Web Socket Port</string>
+
+    <string name="dev_page_input_name_default"></string>
+    <string name="dev_page_input_address_default"></string>
+    <string name="dev_page_input_port_default">3001</string>
+
+    <string name="dev_page_button_text">Save</string>
+
+
     <string name="menu_home">Servers</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About</string>
     <string name="menu_dev">Developer</string>
+
+    <string name="cancelButton">Cancel</string>
+    <string name="declineButton">NO</string>
+    <string name="acceptButton">OK</string>
 </resources>

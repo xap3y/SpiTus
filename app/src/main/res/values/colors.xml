@@ -8,6 +8,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="text_color">#21108A</color>
+    <color name="text_color">#c9c5e0</color>
     <color name="secondary_color">#D5CEFF</color>
+    <color name="snackBarTint">#D5CEFF</color>
+
+    <color name="dev_page_input_name_hint_color">#545252</color>
+    <color name="dev_page_input_address_hint_color">#545252</color>
+    <color name="dev_page_input_port_hint_color">#545252</color>
+
+    <color name="dev_page_input_name_text_color">#d1cfcf</color>
+    <color name="dev_page_input_address_text_color">#d1cfcf</color>
+    <color name="dev_page_input_port_text_color">#d1cfcf</color>
+
+    <color name="dev_page_button_text_color">#FFFFFF</color>
+    <color name="dev_page_button_text_bg">#00691a</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
+
+
 </resources>

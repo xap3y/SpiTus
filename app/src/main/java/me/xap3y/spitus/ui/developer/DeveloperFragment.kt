@@ -4,19 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import me.xap3y.spitus.Utils.DataManager
-import me.xap3y.spitus.Utils.DataManagerViewModelFactory
 import me.xap3y.spitus.databinding.FragmentDeveloperBinding
+import me.xap3y.spitus.listeners.SaveListener
 
 class DeveloperFragment : Fragment() {
 
     private var _binding: FragmentDeveloperBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var dataManager: DataManager
 
@@ -26,17 +22,13 @@ class DeveloperFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         dataManager = DataManager(requireContext())
-        val factory = DataManagerViewModelFactory(dataManager)
-        val galleryViewModel =
-            ViewModelProvider(this, factory)[DeveloperViewModel::class.java]
 
         _binding = FragmentDeveloperBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDeveloper
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val saveButton = binding.save
+        saveButton.setOnClickListener(SaveListener(saveButton, dataManager, binding, requireContext()))
+
         return root
     }
 

@@ -4,9 +4,9 @@ import com.google.gson.Gson
 
 class StorageManager {
     companion object{
-        fun createJsonString(): String {
-            val server = ServerJSON("Lobby", "192.168.1.102", 25570, "145060We#")
-            val server2 = ServerJSON("AuthMe", "192.168.1.11", 25572, "145060We#")
+        fun createDefaultJsonString(): String {
+            val server = ServerJSON("Lobby", "192.168.1.10", 25565, "145060We#")
+            val server2 = ServerJSON("AuthMe", "142.251.36.142", 45100, "145060We#")
             val serverList = ServersARR(listOf(server, server2))
 
             val gson = Gson()
@@ -16,6 +16,10 @@ class StorageManager {
         fun parseJsonString(jsonString: String): ServersARR {
             val gson = Gson()
             return gson.fromJson(jsonString, ServersARR::class.java)
+        }
+
+        fun removeFromJsonArr(jsonArr: ServersARR, filter: String): ServersARR {
+            return ServersARR(jsonArr.servers.filter { it.name != filter })
         }
     }
 }

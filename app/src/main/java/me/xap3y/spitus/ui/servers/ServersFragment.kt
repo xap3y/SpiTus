@@ -1,5 +1,6 @@
 package me.xap3y.spitus.ui.servers
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,21 @@ import androidx.fragment.app.Fragment
 import me.xap3y.spitus.databinding.FragmentHomeBinding
 import me.xap3y.spitus.listeners.FABonClick
 import android.util.Log
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import me.xap3y.spitus.R
 import me.xap3y.spitus.Utils.DataManager
 import me.xap3y.spitus.Utils.DataManagerViewModelFactory
 import me.xap3y.spitus.Utils.ServerJSON
+import me.xap3y.spitus.Utils.ServersARR
 import me.xap3y.spitus.Utils.StorageManager
+import me.xap3y.spitus.Utils.StorageManager.Companion.removeFromJsonArr
+import me.xap3y.spitus.ui.developer.DeveloperFragment
 import me.xap3y.spitus.ui.servers.utils.ServerRowAdapter
-import me.xap3y.spitus.ui.settings.SettingsViewModel
 
 class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
 
@@ -30,6 +36,15 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
     private lateinit var taskAdapter: ServerRowAdapter
     private lateinit var serverList: MutableList<ServerJSON>
     private lateinit var root: View
+    private lateinit var gson: Gson
+    private lateinit var jsonParser: JsonParser
+    private lateinit var serverData: ServersARR
+    private lateinit var serverData2: ServersARR
+    private lateinit var navController: NavController
+
+    fun setNavController(navController: NavController) {
+        this.navController = navController
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +66,11 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         Log.d("test224", jsonString)
         val fab = binding.fab
 
-        fab.setOnClickListener(FABonClick(fab))
+        //fab.setOnClickListener(FABonClick(fab))
+
+        //fab.setOnClickListener {
+        //    loadFragment(DeveloperFragment())
+        //}
 
         return root
 
@@ -59,15 +78,18 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        gson = Gson()
         init()
-
+        getJsonServers()
     }
 
     private fun getJsonServers() {
         serverList.clear()
-        val parser = StorageManager.parseJsonString(dataManager.getString("json"))
-        for (server in parser.servers) {
-            Log.d("LOOP ServersFragment.kt:68", "Server name: ${server.name}, Address: ${server.address}, PORT: ${server.port}")
+        serverData = StorageManager.parseJsonString(dataManager.getString("json"))
+        serverData2 = serverData
+        //serverList = serverData.servers.toMutableList()
+
+        for(server in serverData.servers) {
             serverList.add(ServerJSON(server.name, server.address, server.port, server.token))
         }
     }
@@ -77,10 +99,12 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         serverList = mutableListOf()
+        for(server in serverList){
+            Log.d("ServersFragment.kt:83", "Server name: ${server.name}")
+        }
         taskAdapter = ServerRowAdapter(serverList)
         taskAdapter.setListener(this)
         binding.recyclerView.adapter = taskAdapter
-        getJsonServers()
     }
 
     override fun onDestroyView() {
@@ -88,9 +112,22 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         _binding = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onDeleteItemClicked(serverData: ServerJSON, position: Int) {
         Snackbar.make(root, "Delete item clicked", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
+        Log.d("TEST", serverData.name)
+        serverList.removeIf { it.name == serverData.name && it.address == serverData.address }
+
+        val updatedServersJSON: String = gson.toJson(removeFromJsonArr(serverData2, serverData.name))
+        dataManager.saveString("json", updatedServersJSON)
+
+        // Re-declare variable serverData2 with updated list
+        serverData2 = StorageManager.parseJsonString(dataManager.getString("json"))
+        //Log.d("String after REM", updatedServersJSON.toString())
+        //Log.d("String before REM", dataManager.getString("json"))
+
+        taskAdapter.notifyDataSetChanged()
     }
 
     override fun onEditItemClicked(serverData: ServerJSON, position: Int) {

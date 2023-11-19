@@ -9,7 +9,11 @@
         android:id="@+id/nav_servers"
         android:name="me.xap3y.spitus.ui.servers.ServersFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_servers_to_nav_developer"
+            app:destination="@id/nav_developer" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
@@ -25,7 +29,11 @@
 
     <fragment
         android:id="@+id/nav_developer"
-        android:name="me.xap3y.spitus.ui.about.AboutFragment"
+        android:name="me.xap3y.spitus.ui.developer.DeveloperFragment"
         android:label="@string/menu_dev"
-        tools:layout="@layout/fragment_developer" />
+        tools:layout="@layout/fragment_developer" >
+        <action
+            android:id="@+id/action_nav_developer_to_nav_servers"
+            app:destination="@id/nav_servers" />
+    </fragment>
 </navigation>

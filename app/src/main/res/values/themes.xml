@@ -11,8 +11,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
         <!-- Customize your theme here. -->
     </style>
+
 
     <style name="Theme.SpiTus.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -22,4 +24,11 @@
     <style name="Theme.SpiTus.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SpiTus.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">#5C1349</item>
+        <item name="colorSurface">#292828</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+    </style>
+
 </resources>

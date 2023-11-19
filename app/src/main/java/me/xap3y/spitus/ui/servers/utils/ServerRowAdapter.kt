@@ -1,7 +1,11 @@
 package me.xap3y.spitus.ui.servers.utils
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import me.xap3y.spitus.Utils.ServerJSON
 import me.xap3y.spitus.databinding.EachServerItemBinding
@@ -24,10 +28,18 @@ RecyclerView.Adapter<ServerRowAdapter.ServerViewHolder>(){
         return list.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ServerViewHolder, position: Int) {
         with(holder) {
             with(list[position]){
                 binding.serverName.text = this.name
+                binding.ipPort.text = "${this.address}:${this.port}"
+                //binding.status.baseline = R.color.purple_200
+
+                // Set status dot color:
+                //val imageView: ImageView = binding.status
+                //val vectorDrawable: Drawable? = ContextCompat.getDrawable()
+
                 binding.editTask.setOnClickListener {
                     listener?.onEditItemClicked(this , position)
                 }
