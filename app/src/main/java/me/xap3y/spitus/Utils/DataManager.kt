@@ -27,6 +27,6 @@ class DataManager internal constructor(context: Context) {
 
     fun getString(key: String, defaultValue: String? = null): String {
         if (defaultValue != null) return preferences.getString(key, defaultValue) ?: defaultValue
-        return preferences.getString(key, "ERROR! default value is NULL") ?: "ERROR! default value is NULL"
+        return preferences.getString(key, "ERROR! default value is NULL") ?: "NULL"
     }
 }
