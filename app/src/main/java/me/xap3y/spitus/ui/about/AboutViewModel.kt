@@ -8,7 +8,7 @@ import me.xap3y.spitus.Utils.DataManager
 class AboutViewModel(private val dataManager: DataManager) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+        value = "about"
     }
     val text: LiveData<String> = _text
 }

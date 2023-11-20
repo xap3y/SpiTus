@@ -27,6 +27,15 @@ class DataManager internal constructor(context: Context) {
 
     fun getString(key: String, defaultValue: String? = null): String {
         if (defaultValue != null) return preferences.getString(key, defaultValue) ?: defaultValue
-        return preferences.getString(key, "ERROR! default value is NULL") ?: "NULL"
+        return preferences.getString(key, "null") ?: "null"
+    }
+
+    fun getBool(key: String, defaultValue: Boolean? = false): Boolean {
+        if (defaultValue != null) return preferences.getBoolean(key, defaultValue)
+        return preferences.getBoolean(key, false)
+    }
+
+    fun setBool(key: String, value: Boolean) {
+        preferences.edit().putBoolean(key, value).apply()
     }
 }

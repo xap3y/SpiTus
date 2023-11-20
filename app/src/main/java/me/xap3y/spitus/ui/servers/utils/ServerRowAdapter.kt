@@ -1,13 +1,10 @@
 package me.xap3y.spitus.ui.servers.utils
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import me.xap3y.spitus.Utils.ServerJSON
+import me.xap3y.spitus.Utils.strucs.ServerJSON
 import me.xap3y.spitus.databinding.EachServerItemBinding
 
 class ServerRowAdapter(private val list:MutableList<ServerJSON>) :
@@ -52,7 +49,7 @@ RecyclerView.Adapter<ServerRowAdapter.ServerViewHolder>(){
         }
     }
     interface TaskAdapterInterface{
-        fun onDeleteItemClicked(serverData: ServerJSON , position : Int)
-        fun onEditItemClicked(serverData: ServerJSON , position: Int)
+        fun onDeleteItemClicked(serverData: ServerJSON, position : Int)
+        fun onEditItemClicked(serverData: ServerJSON, position: Int)
     }
 }

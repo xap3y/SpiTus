@@ -1,6 +1,8 @@
 package me.xap3y.spitus.Utils
 
 import com.google.gson.Gson
+import me.xap3y.spitus.Utils.strucs.ServerJSON
+import me.xap3y.spitus.Utils.strucs.ServersARR
 
 class StorageManager {
     companion object{

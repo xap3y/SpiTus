@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import me.xap3y.spitus.databinding.FragmentHomeBinding
-import me.xap3y.spitus.listeners.FABonClick
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -15,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import me.xap3y.spitus.R
 import me.xap3y.spitus.Utils.DataManager
 import me.xap3y.spitus.Utils.DataManagerViewModelFactory
-import me.xap3y.spitus.Utils.ServerJSON
-import me.xap3y.spitus.Utils.ServersARR
+import me.xap3y.spitus.Utils.strucs.ServerJSON
+import me.xap3y.spitus.Utils.strucs.ServersARR
 import me.xap3y.spitus.Utils.StorageManager
 import me.xap3y.spitus.Utils.StorageManager.Companion.removeFromJsonArr
-import me.xap3y.spitus.ui.developer.DeveloperFragment
 import me.xap3y.spitus.ui.servers.utils.ServerRowAdapter
 
 class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {

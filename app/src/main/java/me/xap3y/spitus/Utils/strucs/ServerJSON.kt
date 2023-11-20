@@ -1,4 +1,6 @@
-package me.xap3y.spitus.Utils
+@file:Suppress("PackageName")
+
+package me.xap3y.spitus.Utils.strucs
 
 data class ServerJSON(
     val name: String,

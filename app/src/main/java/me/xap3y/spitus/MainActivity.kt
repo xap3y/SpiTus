@@ -1,7 +1,6 @@
 package me.xap3y.spitus
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -16,43 +15,51 @@ import me.xap3y.spitus.Utils.DataManager
 import me.xap3y.spitus.Utils.Logger.Companion.DEBUG
 import me.xap3y.spitus.Utils.Logger.Companion.ERROR
 import me.xap3y.spitus.Utils.Logger.Companion.logger
-import me.xap3y.spitus.Utils.StorageManager
+import me.xap3y.spitus.Utils.SafeCallBack
+import me.xap3y.spitus.Utils.strucs.CallBackResult
 import me.xap3y.spitus.databinding.ActivityMainBinding
+import me.xap3y.spitus.events.onCreate.Companion.firstTimeLaunch
 import me.xap3y.spitus.ui.servers.ServersFragment
 
 
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var dataManager: DataManager
     private lateinit var navController: NavController
+    private lateinit var callRes: CallBackResult
     private val appVer = "0.0.1"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //dataManager = DataManager.getInstance(this) //No safe call
+        callRes = SafeCallBack.Callback { dataManager = DataManager.getInstance(this) }
+        if(!callRes.success) {
+            logger(ERROR, "DataManager", callRes.errorMessage!!)
+            finish()
+        }
+        else {
+            logger(DEBUG, "DataManager", "DataManager initialized. in ${callRes.runTime}ms")
+        }
 
-        dataManager = DataManager.getInstance(this)
+
         //dataManager.saveString("json", StorageManager.createDefaultJsonString())
-        if(dataManager.getString("env_firstTimeLaunch", "null") == "null") {
-            logger(DEBUG, "DataManager", "App launched for first time, creating default servers JSON.")
-            try {
-                dataManager.saveString("json", StorageManager.createDefaultJsonString())
-                dataManager.saveString("env_firstTimeLaunch", "now")
-                logger(DEBUG, "DataManager", "Default servers JSON saved.")
-            } catch (e: Exception) {
-                logger(ERROR, "DataManager", "Cannot create default servers JSON!", e.toString())
-            }
+
+
+        if(firstTimeLaunch(dataManager)) finish()
+
+
+        if( SafeCallBack.Callback { dataManager.saveString("appVer", appVer) }.success ) {
+            logger(DEBUG, "DataManager", "App version saved. in ${callRes.runTime}ms")
+        }
+        else {
+            logger(ERROR, "DataManager", "Cannot save app version! ERR: ${callRes.errorMessage}")
+            //finish()
         }
 
-        try {
-            logger(DEBUG, "DataManager", "Saving appVer $appVer")
-            dataManager.saveString("appVer", appVer)
-            logger(DEBUG, "DataManager", "Saved appVer")
-        } catch (e: Exception) {
-            logger(ERROR, "DataManager", "Cannot save appVer!", e.toString())
-        }
 
         //val json = StorageManager.createJsonString()
         //dataManager.saveString("json", json)

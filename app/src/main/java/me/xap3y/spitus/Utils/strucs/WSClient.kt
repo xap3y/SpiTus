@@ -1,11 +1,12 @@
-package me.xap3y.spitus.Utils
+@file:Suppress("PackageName")
+
+package me.xap3y.spitus.Utils.strucs
 import org.java_websocket.WebSocket
 import org.java_websocket.handshake.ClientHandshake
 import org.java_websocket.server.WebSocketServer
 import java.lang.Exception
 import java.net.InetSocketAddress
 import me.xap3y.spitus.Utils.Logger.Companion.DEBUG
-import me.xap3y.spitus.Utils.Logger.Companion.ERROR
 import me.xap3y.spitus.Utils.Logger.Companion.logger
 
 class WSClient(address: InetSocketAddress) : WebSocketServer(address) {

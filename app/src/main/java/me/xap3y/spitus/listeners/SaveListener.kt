@@ -7,8 +7,8 @@ import android.widget.Button
 import com.google.gson.Gson
 import me.xap3y.spitus.Utils.DataManager
 import me.xap3y.spitus.Utils.Keyboard
-import me.xap3y.spitus.Utils.ServerJSON
-import me.xap3y.spitus.Utils.ServersARR
+import me.xap3y.spitus.Utils.strucs.ServerJSON
+import me.xap3y.spitus.Utils.strucs.ServersARR
 import me.xap3y.spitus.Utils.MaterialD
 import me.xap3y.spitus.Utils.StorageManager
 import me.xap3y.spitus.databinding.FragmentDeveloperBinding
