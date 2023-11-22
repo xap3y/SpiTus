@@ -7,7 +7,7 @@ import kotlin.system.measureTimeMillis
 
 class SafeCallBack {
     companion object{
-        fun <T> Callback(callback: () -> T): CallBackResult {
+        fun <T> Callback(callback: () -> T): CallBackResult { // ChatGPT carried
             return try {
                 var result: Any? = null;
                 val executionTime = measureTimeMillis {

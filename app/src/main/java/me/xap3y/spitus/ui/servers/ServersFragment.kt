@@ -16,12 +16,19 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import me.xap3y.spitus.Utils.DataManager
 import me.xap3y.spitus.Utils.DataManagerViewModelFactory
+import me.xap3y.spitus.Utils.Logger
+import me.xap3y.spitus.Utils.SafeCallBack
 import me.xap3y.spitus.Utils.strucs.ServerJSON
 import me.xap3y.spitus.Utils.strucs.ServersARR
 import me.xap3y.spitus.Utils.StorageManager
 import me.xap3y.spitus.Utils.StorageManager.Companion.removeFromJsonArr
+import me.xap3y.spitus.Utils.strucs.CallBackResult
+import me.xap3y.spitus.Utils.strucs.WSClient
+import me.xap3y.spitus.Utils.strucs.WSRes
 import me.xap3y.spitus.ui.servers.utils.ServerRowAdapter
+import java.net.URI
 
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
 
     private var _binding: FragmentHomeBinding? = null
@@ -32,17 +39,14 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
     private lateinit var dataManager: DataManager
     private lateinit var taskAdapter: ServerRowAdapter
     private lateinit var serverList: MutableList<ServerJSON>
+    private lateinit var newServersList: MutableList<ServerJSON>
     private lateinit var root: View
     private lateinit var gson: Gson
-    private lateinit var jsonParser: JsonParser
+    private lateinit var callRes: CallBackResult
     private lateinit var serverData: ServersARR
     private lateinit var serverData2: ServersARR
-    private lateinit var navController: NavController
 
-    fun setNavController(navController: NavController) {
-        this.navController = navController
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,19 +55,39 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
 
         dataManager = DataManager(requireContext())
 
-        val factory = DataManagerViewModelFactory(dataManager)
-        val serversViewModel =
-            ViewModelProvider(this, factory)[ServersViewModel::class.java]
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         root = binding.root
 
-        val jsonString = dataManager.getString("json")
-        Log.d("test224", jsonString)
         val fab = binding.fab
 
-        //fab.setOnClickListener(FABonClick(fab))
+        fab.setOnClickListener {
+            Logger.logger(Logger.DEBUG, "FAB", "Refresh button, TODO")
+
+            var serverUri: URI
+            var wsClient: WSClient
+            var receivedMessage: WSRes
+            var serverToUpdate: ServerJSON?
+
+            for(server in serverList) {
+                serverUri = URI("ws://${server.address}:${server.port}")
+                wsClient = WSClient(serverUri)
+                wsClient.connect()
+                serverToUpdate = serverList.find{ it.name == server.name }
+                if (serverToUpdate == null) continue
+                Thread.sleep(300)
+                callRes = SafeCallBack.Callback {
+                    receivedMessage = gson.fromJson(wsClient.serverResponse.toString(), WSRes::class.java)
+                    if (receivedMessage.online != null) serverToUpdate.status = receivedMessage.online!!
+                    else serverToUpdate.status = false
+                }
+                if (callRes.success !== true){
+                    serverToUpdate.status = false
+                }
+                wsClient.close()
+            }
+            taskAdapter.notifyDataSetChanged()
+        }
 
         //fab.setOnClickListener {
         //    loadFragment(DeveloperFragment())
@@ -87,7 +111,7 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         //serverList = serverData.servers.toMutableList()
 
         for(server in serverData.servers) {
-            serverList.add(ServerJSON(server.name, server.address, server.port, server.token))
+            serverList.add(ServerJSON(server.name, server.address, server.port, server.token, server.status))
         }
     }
 
@@ -96,8 +120,9 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         serverList = mutableListOf()
+        newServersList = mutableListOf()
         for(server in serverList){
-            Log.d("ServersFragment.kt:83", "Server name: ${server.name}")
+            Logger.logger(Logger.DEBUG, "ServerList loop", "Found server with name: ${server.name}")
         }
         taskAdapter = ServerRowAdapter(serverList)
         taskAdapter.setListener(this)
@@ -111,9 +136,10 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onDeleteItemClicked(serverData: ServerJSON, position: Int) {
-        Snackbar.make(root, "Delete item clicked", Snackbar.LENGTH_SHORT)
+
+        Snackbar.make(root, "Server deleted", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
-        Log.d("TEST", serverData.name)
+
         serverList.removeIf { it.name == serverData.name && it.address == serverData.address }
 
         val updatedServersJSON: String = gson.toJson(removeFromJsonArr(serverData2, serverData.name))
@@ -128,7 +154,7 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
     }
 
     override fun onEditItemClicked(serverData: ServerJSON, position: Int) {
-        Snackbar.make(root, "Edit item clicked", Snackbar.LENGTH_SHORT)
+        Snackbar.make(root, "TODO", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
     }
 }

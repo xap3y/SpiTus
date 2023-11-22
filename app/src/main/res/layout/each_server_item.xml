@@ -21,7 +21,7 @@
             android:id="@+id/serverName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="38dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/inter_extra_bold"
             android:paddingStart="16dp"
@@ -29,7 +29,8 @@
             android:textColor="@color/text_color"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="test" />
 
         <ImageView
             android:id="@+id/status"
@@ -44,21 +45,24 @@
             app:layout_constraintVertical_bias="0.5" />
 
 
-
         <TextView
             android:id="@+id/ipPort"
-            android:layout_width="207dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="25dp"
-            android:fontFamily="monospace"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
+            android:layout_width="255dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="serif-monospace"
+            android:lineSpacingExtra="0sp"
+            android:lineSpacingMultiplier="1"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="2dp"
             android:textColor="@color/text_color"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="testset" />
 
         <ImageView
             android:id="@+id/editTask"

@@ -30,7 +30,7 @@
         android:contentDescription="@string/imageDescr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@drawable/baseline_refresh_24" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

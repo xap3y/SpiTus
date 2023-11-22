@@ -15,9 +15,9 @@ class onCreate {
     companion object{
         private lateinit var callRes: CallBackResult
         fun firstTimeLaunch(dataManager: DataManager) : Boolean {
-            callRes = SafeCallBack.Callback { dataManager.getBool("env_firstTimeLaunch", true) }
+            callRes = SafeCallBack.Callback { dataManager.getBool("env_boolFirstTimeLaunch", true) }
 
-            if(callRes.success && (callRes.result != null) && (callRes.result as Boolean)) {
+            if(callRes.success && (callRes.result as Boolean)) {
 
                 Logger.logger(
                     Logger.DEBUG,
@@ -41,12 +41,12 @@ class onCreate {
                         return false;
                     }
 
-                    _temp = SafeCallBack.Callback { dataManager.setBool("env_firstTimeLaunch", false) }
+                    _temp = SafeCallBack.Callback { dataManager.setBool("env_boolFirstTimeLaunch", false) }
                     if (!_temp.success) {
                         Logger.logger(
                             Logger.ERROR,
                             "DataManager",
-                            "Cannot set env_firstTimeLaunch to false! ERR: ${_temp.errorMessage}",
+                            "Cannot set env_boolFirstTimeLaunch to false! ERR: ${_temp.errorMessage}",
                         )
 
                         TODO("Un-Comment after first stable release")

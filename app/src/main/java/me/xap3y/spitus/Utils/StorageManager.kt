@@ -7,8 +7,8 @@ import me.xap3y.spitus.Utils.strucs.ServersARR
 class StorageManager {
     companion object{
         fun createDefaultJsonString(): String {
-            val server = ServerJSON("Lobby", "192.168.1.10", 25565, "145060We#")
-            val server2 = ServerJSON("AuthMe", "142.251.36.142", 45100, "145060We#")
+            val server = ServerJSON("Lobby", "89.103.79.152", 3002, "nutella", false)
+            val server2 = ServerJSON("AuthMe", "142.251.36.142", 3000, "qwerty", false)
             val serverList = ServersARR(listOf(server, server2))
 
             val gson = Gson()

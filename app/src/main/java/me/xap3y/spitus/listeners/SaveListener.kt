@@ -54,13 +54,13 @@ class SaveListener(private val button: Button, private val dataManager: DataMana
                             MaterialD.snackBar(context, "This name already exits!", view)
                             return
                         }
-                        serverList.add(ServerJSON(server.name, server.address, server.port, server.token))
+                        serverList.add(ServerJSON(server.name, server.address, server.port, server.token, server.status))
                     }
                 } catch (e: Exception) {
                     MaterialD.snackBar(context,"Error while creating server", view)
                 }
                 try {
-                    serverList.add(ServerJSON(name, address, port, "test"))
+                    serverList.add(ServerJSON(name, address, port, "test", false))
                     val data3 = ServersARR(serverList)
                     val updatedServersJSON: String = gson.toJson(data3)
                     dataManager.saveString("json", updatedServersJSON)

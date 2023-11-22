@@ -6,5 +6,6 @@ data class ServerJSON(
     val name: String,
     val address: String,
     val port: Int,
-    val token: String
+    val token: String,
+    var status: Boolean,
 )

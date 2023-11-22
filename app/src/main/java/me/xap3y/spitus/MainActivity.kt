@@ -16,6 +16,7 @@ import me.xap3y.spitus.Utils.Logger.Companion.DEBUG
 import me.xap3y.spitus.Utils.Logger.Companion.ERROR
 import me.xap3y.spitus.Utils.Logger.Companion.logger
 import me.xap3y.spitus.Utils.SafeCallBack
+import me.xap3y.spitus.Utils.StorageManager
 import me.xap3y.spitus.Utils.strucs.CallBackResult
 import me.xap3y.spitus.databinding.ActivityMainBinding
 import me.xap3y.spitus.events.onCreate.Companion.firstTimeLaunch
@@ -49,7 +50,12 @@ class MainActivity : AppCompatActivity() {
         //dataManager.saveString("json", StorageManager.createDefaultJsonString())
 
 
-        if(firstTimeLaunch(dataManager)) finish()
+        if(!firstTimeLaunch(dataManager)) {
+            logger(ERROR, "DataManager", "First time launch failed!")
+            finish()
+        } else {
+            logger(DEBUG, "DataManager", "First time launch finished.")
+        }
 
 
         if( SafeCallBack.Callback { dataManager.saveString("appVer", appVer) }.success ) {
@@ -82,22 +88,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        val yourButton = findViewById<FloatingActionButton>(R.id.fab)
-        yourButton.setOnClickListener {
-            navigateToServerFragment()
-        }
-    }
-
-    private fun navigateToServerFragment() {
-        try {
-            logger(DEBUG, "NavController", "Setting controller and navigating to nav_developer...")
-            val serverFragment = ServersFragment()
-            serverFragment.setNavController(navController)
-            navController.navigate(R.id.nav_developer)
-            logger(DEBUG, "NavController", "Navigated to nav_developer.")
-        } catch (e: Exception) {
-            logger(ERROR, "navController", "Cannot navigate to server fragment!", e.toString())
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
