@@ -15,11 +15,13 @@
     <string name="dev_page_title">New WS server</string>
     <string name="dev_page_input_name_hint">Server name</string>
     <string name="dev_page_input_address_hint">Web Socket address</string>
-    <string name="dev_page_input_port_hint">Web Socket Port</string>
+    <string name="dev_page_input_port_hint">Web Socket port</string>
+    <string name="dev_page_input_password_hint">Web Socket password</string>
 
     <string name="dev_page_input_name_default"></string>
     <string name="dev_page_input_address_default"></string>
     <string name="dev_page_input_port_default">3001</string>
+    <string name="dev_page_input_password_default"></string>
 
     <string name="dev_page_button_text">Save</string>
 

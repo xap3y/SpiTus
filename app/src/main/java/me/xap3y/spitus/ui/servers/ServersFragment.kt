@@ -64,28 +64,51 @@ class ServersFragment : Fragment(), ServerRowAdapter.TaskAdapterInterface {
         fab.setOnClickListener {
             Logger.logger(Logger.DEBUG, "FAB", "Refresh button, TODO")
 
-            var serverUri: URI
-            var wsClient: WSClient
-            var receivedMessage: WSRes
-            var serverToUpdate: ServerJSON?
-
             for(server in serverList) {
-                serverUri = URI("ws://${server.address}:${server.port}")
-                wsClient = WSClient(serverUri)
-                wsClient.connect()
-                serverToUpdate = serverList.find{ it.name == server.name }
-                if (serverToUpdate == null) continue
-                Thread.sleep(300)
-                callRes = SafeCallBack.Callback {
-                    receivedMessage = gson.fromJson(wsClient.serverResponse.toString(), WSRes::class.java)
-                    if (receivedMessage.online != null) serverToUpdate.status = receivedMessage.online!!
-                    else serverToUpdate.status = false
-                }
-                if (callRes.success !== true){
-                    serverToUpdate.status = false
-                }
-                wsClient.close()
+                Thread {
+                    var wsClient: WSClient
+                    var receivedMessage: Map<*, *>
+                    var serverUri: URI = URI("ws://${server.address}:${server.port}")
+                    wsClient = WSClient(serverUri)
+                    wsClient.connect()
+                    var serverToUpdate: ServerJSON? =
+                        serverList.find{ it.name == server.name } ?: return@Thread
+                    Thread.sleep(100)
+                    callRes = SafeCallBack.Callback {
+                        wsClient.send("{\"type\":\"get_info\",\"password\":\"${serverToUpdate!!.token}\"}")
+                        Logger.logger(Logger.DEBUG, "WSClient", "Sending req get_info with token ${serverToUpdate!!.token}")
+                    }
+
+                    Thread.sleep(200)
+
+                    if (callRes.success !== true){
+                        serverToUpdate!!.status = false
+                        serverToUpdate!!.error = null
+                    }
+
+                    callRes = SafeCallBack.Callback {
+                        receivedMessage = gson.fromJson(wsClient.serverResponse.toString(), Map::class.java)
+                        if (receivedMessage["server"].toString() == "null") {
+                            if(receivedMessage["error"].toString() != "null" && receivedMessage["error_type"].toString() != "null") {
+                                serverToUpdate!!.error = receivedMessage["error_type"].toString()
+                                serverToUpdate!!.status = false
+                            }
+                        } else {
+                            serverToUpdate!!.status = true
+                            serverToUpdate!!.error = null
+                        }
+                    }
+                    if (callRes.success !== true){
+                        serverToUpdate!!.status = false
+                        serverToUpdate!!.error = null
+                    }
+                    else {
+                        Logger.logger(Logger.DEBUG, "WSClient", "Received message: ${wsClient.serverResponse.toString()}")
+                    }
+                    wsClient.close()
+                }.start()
             }
+            Thread.sleep(600)
             taskAdapter.notifyDataSetChanged()
         }
 

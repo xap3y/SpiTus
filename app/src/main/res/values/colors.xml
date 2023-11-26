@@ -15,10 +15,12 @@
     <color name="dev_page_input_name_hint_color">#545252</color>
     <color name="dev_page_input_address_hint_color">#545252</color>
     <color name="dev_page_input_port_hint_color">#545252</color>
+    <color name="dev_page_input_password_hint_color">#545252</color>
 
     <color name="dev_page_input_name_text_color">#d1cfcf</color>
     <color name="dev_page_input_address_text_color">#d1cfcf</color>
     <color name="dev_page_input_port_text_color">#d1cfcf</color>
+    <color name="dev_page_input_password_text_color">#d1cfcf</color>
 
     <color name="dev_page_button_text_color">#FFFFFF</color>
     <color name="dev_page_button_text_bg">#00691a</color>

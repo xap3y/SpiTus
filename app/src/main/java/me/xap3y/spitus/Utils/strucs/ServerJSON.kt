@@ -8,4 +8,5 @@ data class ServerJSON(
     val port: Int,
     val token: String,
     var status: Boolean,
+    var error: String? = null
 )

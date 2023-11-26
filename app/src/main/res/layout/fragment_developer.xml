@@ -121,11 +121,39 @@
             android:textCursorDrawable='@null' />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout4"
+        android:layout_width="334dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@color/dev_page_input_password_hint_color"
+        android:textCursorDrawable='@null'
+        app:boxStrokeColor="#9F9F9F"
+        app:hintTextColor="#00F494"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
+        app:placeholderTextColor="#FFFFFF">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="334dp"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:backgroundTint="#00FFFFFF"
+            android:hint="@string/dev_page_input_password_hint"
+            android:paddingBottom="1dp"
+            android:text="@string/dev_page_input_password_default"
+            android:textColor="@color/dev_page_input_password_text_color"
+            android:textCursorDrawable='@null' />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/save"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="101dp"
         android:background="@drawable/rounded_corners"
         android:backgroundTint="@color/dev_page_button_text_bg"
         android:text="@string/dev_page_button_text"

@@ -20,7 +20,7 @@ class SaveListener(private val button: Button, private val dataManager: DataMana
     private lateinit var name: String
     private var port: Int = 0;
     private lateinit var address: String
-    private lateinit var token: String
+    private lateinit var password: String
     private lateinit var gson: Gson
     private val context = context2
     override fun onClick(view: View?) {
@@ -28,6 +28,7 @@ class SaveListener(private val button: Button, private val dataManager: DataMana
 
             name = binding.name.text.toString()
             address = binding.address.text.toString()
+            password = binding.password.text.toString()
             port = try {
                 binding.port.text.toString().toInt()
             } catch (e: Exception) {
@@ -60,7 +61,7 @@ class SaveListener(private val button: Button, private val dataManager: DataMana
                     MaterialD.snackBar(context,"Error while creating server", view)
                 }
                 try {
-                    serverList.add(ServerJSON(name, address, port, "test", false))
+                    serverList.add(ServerJSON(name, address, port, password, false))
                     val data3 = ServersARR(serverList)
                     val updatedServersJSON: String = gson.toJson(data3)
                     dataManager.saveString("json", updatedServersJSON)

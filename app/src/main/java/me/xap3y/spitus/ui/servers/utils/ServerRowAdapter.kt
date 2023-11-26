@@ -33,14 +33,21 @@ RecyclerView.Adapter<ServerRowAdapter.ServerViewHolder>(){
     override fun onBindViewHolder(holder: ServerViewHolder, position: Int) {
         with(holder) {
             with(list[position]){
-                binding.serverName.text = this.name + this.status.let { if (it) " (Online)" else " (Offline)" }
                 binding.ipPort.text = "${this.address}:${this.port}"
 
-                if (this.status) {
-                    holder.statusImageView.setImageResource(R.drawable.baseline_circle_24_green)
+
+                if (this.error != null) {
+                    holder.statusImageView.setImageResource(R.drawable.baseline_circle_24_red)
+                    binding.serverName.text = this.name + " (Error: ${this.error})"
                 }
                 else {
-                    holder.statusImageView.setImageResource(R.drawable.baseline_circle_24)
+                    binding.serverName.text = this.name + this.status.let { if (it) " (Online)" else " (Offline)" }
+                    if (this.status) {
+                        holder.statusImageView.setImageResource(R.drawable.baseline_circle_24_green)
+                    }
+                    else {
+                        holder.statusImageView.setImageResource(R.drawable.baseline_circle_24)
+                    }
                 }
                 //binding.status.baseline = R.color.purple_200
 

@@ -12,7 +12,7 @@ android {
         minSdkVersion(rootProject.extra["defaultMinSdkVersion"] as Int)
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "v0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
